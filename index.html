@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Navidad</title>
+<style>
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(180deg, #0b1d3a, #020617);
+    font-family:'Poppins', sans-serif;
+    overflow:hidden;
+    color:white;
+  }
+
+  /* Pantallas */
+  .screen{display:none; width:100%; height:100%; justify-content:center; align-items:center; position:absolute; top:0; left:0}
+  .screen.active{display:flex}
+
+  /* Pantalla nombre */
+  .name-card{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    padding:40px 30px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(255,255,255,0.3);
+  }
+
+  input{
+    padding:12px;
+    width:100%;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+    margin-top:15px;
+  }
+
+  button{
+    margin-top:20px;
+    padding:12px 20px;
+    font-size:16px;
+    border:none;
+    border-radius:12px;
+    background:#ff3b3b;
+    color:white;
+    font-weight:bold;
+  }
+
+  /* Estrellas */
+  .star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation:twinkle 2s infinite;opacity:.8}
+  @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+
+  /* Tarjeta */
+  .card{
+    position:relative;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    padding:45px 35px;
+    border-radius:26px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(255,0,0,0.4);
+    z-index:2;
+    animation:zoomIn 1.4s ease;
+  }
+
+  @keyframes zoomIn{from{opacity:0; transform:scale(.7)}to{opacity:1; transform:scale(1)}}
+
+  h1{font-size:42px;margin:0;color:#ff3b3b;text-shadow:0 0 15px #ff3b3b,0 0 35px #ff0000}
+  p{margin-top:18px;font-size:19px;color:#fff}
+
+  /* Fuegos artificiales */
+  .firework{position:absolute;width:6px;height:6px;border-radius:50%;animation:explode 2.2s infinite}
+  .firework::before{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:#ffd700;box-shadow:24px 0 #ff4d4d,-24px 0 #4dd2ff,0 24px #4dff88,0 -24px #ff9f1c,18px 18px #ff6ec7,-18px -18px #9b5cff,-18px 18px #00f5d4,18px -18px #ffe66d}
+  @keyframes explode{0%{transform:scale(0);opacity:1}60%{transform:scale(1.3);opacity:1}100%{transform:scale(2);opacity:0}}
+
+  .f1{top:15%; left:20%}
+  .f2{top:25%; left:70%; animation-delay:.7s}
+  .f3{top:65%; left:25%; animation-delay:1.4s}
+  .f4{top:60%; left:80%; animation-delay:2.1s}
+
+  /* Nieve */
+  .snow{position:absolute;top:-10px;color:white;font-size:14px;animation:fall linear infinite}
+  @keyframes fall{to{transform:translateY(110vh)}}
+</style>
+</head>
+<body>
+
+<!-- PANTALLA 1: INGRESAR NOMBRE -->
+<div class="screen active" id="screenName">
+  <div class="name-card">
+    <p style="font-size:22px; font-weight:bold;">Agrega tu nombre aquí</p>
+    <input type="text" id="userName" placeholder="Escribe tu nombre">
+    <button onclick="showCard()">Continuar ✨</button>
+  </div>
+</div>
+
+<!-- PANTALLA 2: TARJETA -->
+<div class="screen" id="screenCard">
+
+  <!-- Estrellas -->
+  <div class="star" style="top:10%; left:15%"></div>
+  <div class="star" style="top:25%; left:80%"></div>
+  <div class="star" style="top:40%; left:50%"></div>
+  <div class="star" style="top:60%; left:30%"></div>
+
+  <!-- Fuegos artificiales -->
+  <div class="firework f1"></div>
+  <div class="firework f2"></div>
+  <div class="firework f3"></div>
+  <div class="firework f4"></div>
+
+  <!-- Nieve -->
+  <div class="snow" style="left:10%; animation-duration:6s">❄</div>
+  <div class="snow" style="left:30%; animation-duration:8s">❄</div>
+  <div class="snow" style="left:50%; animation-duration:7s">❄</div>
+  <div class="snow" style="left:70%; animation-duration:9s">❄</div>
+
+  <div class="card">
+    <h1 id="title">🎄 Feliz Navidad 🎄</h1>
+    <p id="message"></p>
+  </div>
+</div>
+
+<script>
+  function showCard(){
+    const name = document.getElementById('userName').value || '✨';
+    document.getElementById('message').innerText = `Que esta Navidad esté llena de alegría, amor y momentos mágicos para ti, ${name} 🎁✨`;
+    document.getElementById('screenName').classList.remove('active');
+    document.getElementById('screenCard').classList.add('active');
+  }
+</script>
+
+</body>
+</html>
