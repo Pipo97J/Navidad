@@ -4,10 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feliz Año Nuevo 2026</title>
+
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  height:100vh;
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -17,70 +22,107 @@ body{
   color:white;
 }
 
+/* ===== CONTENEDOR DE PANTALLAS ===== */
 .screen{
   display:none;
   width:100%;
   height:100%;
   position:absolute;
-  top:0;left:0;
+  inset:0;
   justify-content:center;
   align-items:center;
+  padding:20px;
 }
-.screen.active{display:flex}
+.screen.active{
+  display:flex;
+}
 
 /* ===== PANTALLA INICIAL ===== */
 .start-box{
   text-align:center;
-  animation:fadeIn 1.2s ease;
+  animation:fadeIn 1s ease;
+  max-width:400px;
+  width:100%;
 }
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
 
-.start-box p{font-size:22px}
+.start-box p{
+  font-size:clamp(18px,4vw,22px);
+}
+
 .start-box input{
-  margin-top:10px;
-  padding:12px;
-  width:220px;
-  border-radius:10px;
+  margin-top:12px;
+  padding:14px;
+  width:100%;
+  border-radius:12px;
   border:none;
+  font-size:16px;
   text-align:center;
 }
+
 .start-box button{
-  margin-top:15px;
-  padding:12px 22px;
+  margin-top:18px;
+  padding:14px 24px;
   border:none;
-  border-radius:12px;
+  border-radius:14px;
   background:linear-gradient(45deg,#ffcc00,#ff6600);
   font-weight:bold;
   font-size:16px;
   cursor:pointer;
 }
 
-/* ===== TARJETA FINAL ===== */
+/* ===== TARJETA ===== */
 .card{
   background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(10px);
-  padding:clamp(24px, 6vw, 45px) clamp(18px, 6vw, 30px);
-  border-radius:30px;
+  backdrop-filter:blur(12px);
+  padding:clamp(22px,5vw,40px);
+  border-radius:28px;
   text-align:center;
-  box-shadow:0 0 45px rgba(255,204,0,.5);
-  animation:zoomIn 1.2s ease;
-  max-width:90vw;
+  box-shadow:0 0 40px rgba(255,204,0,.5);
+  animation:zoomIn 1s ease;
+  max-width:600px;
+  width:100%;
 }
-@keyframes zoomIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes zoomIn{
+  from{opacity:0;transform:scale(.8)}
+  to{opacity:1;transform:scale(1)}
+}
 
 .year{
-  font-size:clamp(56px, 15vw, 90px);
+  font-size:clamp(56px,18vw,96px);
   font-weight:900;
   color:#ffd700;
   text-shadow:0 0 20px #ffd700,0 0 40px #ff9f1c;
 }
 
-.signature{margin-top:22px;font-style:italic;color:#ffd700}
+h2{
+  font-size:clamp(20px,5vw,28px);
+  margin:10px 0;
+}
 
-/* ===== EFECTO ESCRITURA ===== */
-.typing{white-space:pre-line}
+#message{
+  margin-top:18px;
+  font-size:clamp(15px,4vw,18px);
+  line-height:1.6;
+  white-space:pre-line;
+}
 
-/* ===== FUEGOS ARTIFICIALES ===== */
+.signature{
+  margin-top:24px;
+  font-style:italic;
+  color:#ffd700;
+}
+
+/* ===== FUEGOS ===== */
+#fireworks{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
 .firework{
   position:absolute;
   width:4px;
@@ -96,26 +138,16 @@ body{
     -7px 7px 0 currentColor,
     7px -7px 0 currentColor,
     -7px -7px 0 currentColor;
-  animation: explode 1.2s ease-out forwards;
+  animation:explode 1.2s ease-out forwards;
 }
+
 @keyframes explode{
   0%{transform:scale(0);opacity:1}
   100%{transform:scale(6);opacity:0}
 }
-
-@media (max-width:480px){
-  .start-box p{font-size:18px}
-  .start-box input{width:200px;font-size:14px}
-  .start-box button{font-size:14px;padding:10px 18px}
-}
-
-#fireworks{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
 </style>
 </head>
+
 <body>
 
 <!-- PANTALLA 1 -->
@@ -123,7 +155,6 @@ body{
   <div class="start-box">
     <p>Agrega tu nombre</p>
     <input id="userName" placeholder="Tu nombre">
-    <br>
     <button onclick="showCard()">Continuar ✨</button>
   </div>
 </div>
@@ -132,24 +163,20 @@ body{
 <div class="screen" id="screenCard">
   <div id="fireworks"></div>
   <div class="card">
-    <div class="year" id="year">2026</div>
-    <h2 id="title">🎆 Feliz Año Nuevo 🎆</h2>
+    <div class="year">2026</div>
+    <h2>🎆 Feliz Año Nuevo 🎆</h2>
     <p id="message"></p>
     <div class="signature">Con cariño, Pinto</div>
   </div>
 </div>
 
 <script>
-// ===== TEXTO DEL MENSAJE =====
-const text = (n) => `Que este 2026 venga cargado de bendiciones para tu vida. Que Dios te acompañe en cada paso, te cuide, te fortalezca y te dé sabiduría para tomar buenas decisiones incluso en los días difíciles.
+const text = (n) => `Que este 2026 venga cargado de bendiciones para tu vida. Que Dios te acompañe en cada paso, te cuide y te fortalezca.
 
-Deseo que este nuevo año sea una oportunidad para crecer, para levantarte con más fe cuando algo no salga como esperas y para nunca olvidar que con esfuerzo, constancia y la ayuda de Dios, todo es posible.
+Que no te falte salud, paz, amor verdadero y personas que te sumen. Que cada meta encuentre su camino y recuerdes lo valioso que eres ✨
 
-Que no te falte salud, paz en el corazón, amor verdadero y personas que te sumen. Que cada meta que te propongas encuentre su camino y que siempre recuerdes lo valioso que eres. ✨
+Feliz y bendecido 2026 🎆`;
 
-De todo corazón, que el 2026 te llene de esperanza, propósito y muchas razones para agradecer. 🎆`;
-
-// ===== MOSTRAR TARJETA =====
 function showCard(){
   const name = document.getElementById('userName').value.trim();
   if(!name){
@@ -160,53 +187,25 @@ function showCard(){
   document.getElementById('screenName').classList.remove('active');
   document.getElementById('screenCard').classList.add('active');
 
-  const year = document.getElementById('year');
-  const title = document.getElementById('title');
-  year.style.opacity = 1;
-  year.style.animation = 'zoomIn 1s ease';
-  title.style.opacity = 1;
-
-  // MENSAJE SIN ESPERA
-  document.getElementById('message').textContent = `Para ti, ${name} 🥳😉
+  document.getElementById('message').textContent =
+`Para ti, ${name} 🥳
 
 ${text(name)}`;
+
   launchFireworks();
-
-  /* setTimeout(() => {
-    typeText(`Para ti, ${name} ❤️\n\n`, () => {
-      typeText(text(name), null, true);
-      launchFireworks();
-    });
-  */
 }
 
-// ===== EFECTO ESCRITURA =====
-function typeText(t, callback = null, append = false){
-  const el = document.getElementById('message');
-  let i = 0;
-  if(!append) el.textContent = '';
-  const interval = setInterval(() => {
-    el.textContent += t.charAt(i);
-    i++;
-    if(i >= t.length){
-      clearInterval(interval);
-      if(callback) callback();
-    }
-  }, 40);
-}
-
-// ===== FUEGOS ARTIFICIALES =====
 function launchFireworks(){
   const container = document.getElementById('fireworks');
   setInterval(() => {
     const fw = document.createElement('div');
     fw.className = 'firework';
-    fw.style.left = Math.random() * 100 + '%';
-    fw.style.top = Math.random() * 60 + '%';
+    fw.style.left = Math.random()*100 + '%';
+    fw.style.top = Math.random()*60 + '%';
     fw.style.color = `hsl(${Math.random()*360},100%,60%)`;
     container.appendChild(fw);
-    setTimeout(() => fw.remove(), 1500);
-  }, 400);
+    setTimeout(()=>fw.remove(),1200);
+  },500);
 }
 </script>
 
